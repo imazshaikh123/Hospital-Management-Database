@@ -1,0 +1,69 @@
+CREATE TABLE Patient(
+    PID int PRIMARY KEY,
+    NAME VARCHAR(30),
+    AGE INT,
+    GENDER VARCHAR(30),
+    ADDRESS VARCHAR(30),
+    P_TYPE VARCHAR(30),
+    ADMIT_DATE VARCHAR(30),
+    DISCHARGE_DATE VARCHAR(30),
+    VISIT_DATE VARCHAR(30),
+    NEXT_VISIT_DATE VARCHAR(30)
+);
+
+CREATE TABLE Doctor(
+    DID int PRIMARY KEY,
+    SPECIALITY VARCHAR(30),
+    D_TYPE VARCHAR(30),
+    WAGES int,
+    HOURS int
+);
+
+CREATE TABLE Employee(
+    EID int PRIMARY KEY,
+    NAME VARCHAR(30),
+    DESIGNATIOM VARCHAR(30),
+    ADDRESS VARCHAR(30),
+    GENDER VARCHAR(30),
+    PHONE_NO VARCHAR(15)
+);
+
+CREATE TABLE Record(
+    PID int,
+    DID int,
+    PRES_ID int,
+    ROOM_ID int,
+    DAYS int,
+    PAYMENT_TYPE varchar(30),
+    PRIMARY KEY(PID,DID,PRES_ID,ROOM_ID)
+);
+
+CREATE TABLE Room(
+    ROOM_ID int,
+    ROOM_TYPE varchar(30),
+    CHARGES int,
+    PRIMARY KEY(ROOM_ID)
+);
+
+CREATE TABLE Chemist(
+    CID int,
+    PID int,
+    PRES_ID int,
+    TOTAL_AMT int,
+    PRIMARY KEY(CID,PID,PRES_ID)
+);
+
+CREATE TABLE Nurse(
+    NID int,
+    ROOM_ID int,
+    HOURS int,
+    Wages int,
+    PRIMARY KEY(NID,ROOM_ID)
+);
+
+CREATE TABLE Staff(
+    SID int,
+    HOURS int,
+    Wages int,
+    PRIMARY KEY(SID)
+);

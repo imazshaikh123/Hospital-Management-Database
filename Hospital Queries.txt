@@ -1,0 +1,65 @@
+--1.) Retrieve the name and total charges of all patients who have been admitted for more than 5 days.
+SELECT Patient.NAME, Record.DAYS, SUM(Room.CHARGES * Record.DAYS) AS TOTAL_CHARGES
+FROM Patient, Record, Room
+WHERE Patient.PID = Record.PID
+AND Record.ROOM_ID = Room.ROOM_ID
+AND Record.DAYS > 5
+GROUP BY Patient.NAME, Record.DAYS;
+
+--2.) Retrieve the name and total wages of all employees who work in the pharmacy.
+SELECT Employee.NAME, Staff.WAGES 
+FROM Employee
+INNER JOIN Staff ON Employee.EID = Staff.SID
+WHERE Employee.DESIGNATIOM = 'Chemist'
+GROUP BY Employee.NAME,Staff.Wages;
+
+--3.) Retrieve the names of all patients who were admitted in the year 2022.
+SELECT PID,NAME,ADMIT_DATE
+FROM Patient
+WHERE Year(Patient.ADMIT_DATE) = 2022;
+
+--4.) Retrieve the name and total charges of all patients who have been assigned to a private room.
+SELECT Patient.PID,Patient.NAME, SUM(Room.CHARGES*Record.DAYS) AS TOTAL_CHARGES
+FROM Patient, Record, Room
+WHERE Patient.PID = Record.PID
+AND Record.ROOM_ID = Room.ROOM_ID
+AND Room.ROOM_TYPE = 'Private Ward'
+GROUP BY Patient.NAME, Patient.PID;
+
+--5.) Find the number of nurses working in each room:
+SELECT ROOM_ID, 
+       (SELECT COUNT(*) 
+        FROM Nurse 
+        WHERE Nurse.ROOM_ID = Room.ROOM_ID) AS Number_Of_Nurses
+FROM Room;
+
+
+--6.) Find the names of all doctors who earn more than 200,000 per year:
+SELECT Employee.NAME,Doctor.Wages FROM Employee,Doctor
+WHERE Doctor.WAGES > 200000 AND Employee.EID=Doctor.DID
+GROUP BY Employee.NAME,Doctor.WAGES;
+
+--7.) Find the total amount paid by each patient for all their prescriptions in descending order:
+SELECT PATIENT.NAME AS NAME , SUM(TOTAL_AMT) AS TOTAL_AMT
+FROM CHEMIST,PATIENT 
+WHERE CHEMIST.PID=PATIENT.PID 
+GROUP BY PATIENT.NAME 
+ORDER BY TOTAL_AMT DESC
+
+--8.) Find the names of all patients and their assigned doctors:
+SELECT Patient.NAME, Employee.NAME
+FROM Patient, Doctor, Record, Employee
+WHERE Patient.PID = Record.PID AND Doctor.DID = Record.DID AND Employee.EID = Doctor.DID ;
+
+--9.) Retrieve the name and age of all female patients who hae been admitted:
+SELECT NAME, AGE
+FROM Patient,Room,Record
+WHERE GENDER = 'Female' AND P_TYPE = 'Admit'
+GROUP BY Patient.NAME,Patient.AGE;
+
+--10.) Find the total number of patients assigned to each doctor:
+SELECT Doctor.DID,Employee.NAME,Doctor.SPECIALITY,COUNT(*) AS NO_OF_PATIENTS
+FROM Doctor ,Record ,Employee 
+WHERE Doctor.DID=Record.DID AND Employee.EID=Doctor.DID
+GROUP BY Doctor.DID,Doctor.SPECIALITY,Employee.NAME
+ORDER BY NO_OF_PATIENTS DESC;
